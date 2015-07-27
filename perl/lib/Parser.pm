@@ -15,7 +15,7 @@ sub parse {
 }
 
 sub _parser {
-    my $line   = $_;
+    my ($self, $line)   = @_;
     my %params = ( $line =~ /(\w+):(.+?)[\t|\n]/g );
     my %log;
 
