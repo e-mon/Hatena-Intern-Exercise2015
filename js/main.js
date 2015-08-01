@@ -32,3 +32,42 @@ function zipObj(str){
    return [key,value];
 }
 // 課題 JS-2: 関数 `createLogTable` を記述してください
+function createLogTable(elem, logs){
+   var tbody = document.createElement('tbody');
+   var columns = [];
+   logs.forEach(function(log){
+      columns = columns.concat(Object.keys(log));
+      tbody.appendChild(createTableContents(log));
+   });
+
+   var thead = createTableHeader(new Set(columns));
+   var table = document.createElement('table');
+   table.appendChild(thead);
+   table.appendChild(tbody);
+
+   elem.appendChild(table);
+}
+
+function createTableHeader(columns){
+   var elem = document.createElement('tr');
+   var tableHeader = document.createElement('thead');
+   columns.forEach(function(column){
+      var head = document.createElement('th');
+      head.innerHTML = column;
+      elem.appendChild(head);
+   });
+   tableHeader.appendChild(elem);
+   return tableHeader;
+}
+
+function createTableContents(log){
+   var elem = document.createElement('tr');
+   Object.keys(log).forEach(function(key){
+      var td = document.createElement('td');
+      td.innerHTML = log[key];
+      elem.appendChild(td);
+   });
+
+   return elem;
+}
+
