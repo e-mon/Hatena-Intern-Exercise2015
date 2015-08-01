@@ -1,40 +1,34 @@
 // 課題 JS-1: 関数 `parseLTSVLog` を記述してください
 function parseLTSVLog(logStr){
    logStr = logStr.replace(/\n+$/g,'');
-   if(logStr === "")
+   if(!logStr)
       return [];
 
-   var logs = logStr.split('\n').map(
-         function(elem){
-            // TODO: \tを含まない場合は例外処理
-            return elem.split('\t');
-         }
-   );
-
-   return logs.map( function(log){
-            var res = {};
-            log.forEach(function(elem){
-               var ret = _toObj(res,elem);
-               // TODO: ret == falseは例外処理
-            });
-            return res;
-         });
+   return logStr.split('\n').map(LTSVparser);
 }
 
-function _toObj(obj,str){
-   var tmp = str.split(':');
-   if(tmp.length != 2)
+function LTSVparser(log){
+   var obj = {};
+   log.split(/\t/).forEach(function (field){
+      var parsed = zipObj(field);
+      obj[parsed[0]] = parsed[1];
+   });
+   return obj;
+}
+
+function zipObj(str){
+   var FORMAT_PATTERN = /([^:]+):(.*)/
+   var matched = FORMAT_PATTERN.exec(str);
+   if(!matched)
       return false;
 
-   var key = tmp[0];
-   var value = tmp[1];
+   var key = matched[1];
+   var value = matched[2];
 
    if(!isNaN(value)){
-      // TODO: float
-      value = parseInt(value);
+      value = Number(value);
    }
-   obj[key] = value;
 
-   return true;
+   return [key,value];
 }
 // 課題 JS-2: 関数 `createLogTable` を記述してください
