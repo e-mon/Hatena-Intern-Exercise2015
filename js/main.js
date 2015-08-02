@@ -22,7 +22,7 @@ function zipObj(str){
    if(!matched)
       return false;
 
-   var key = matched[1];
+   var key = matched[1].trim();
    var value = matched[2];
 
    if(!isNaN(value)){
@@ -40,7 +40,10 @@ function createLogTable(elem, logs){
       tbody.appendChild(createTableContents(log));
    });
 
-   var thead = createTableHeader(new Set(columns));
+   columns = columns.filter(function(x,i,self){
+       return self.indexOf(x) == i;
+   });
+   var thead = createTableHeader(columns);
    var table = document.createElement('table');
    table.appendChild(thead);
    table.appendChild(tbody);

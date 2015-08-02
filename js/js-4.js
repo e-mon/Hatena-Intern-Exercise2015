@@ -28,4 +28,4 @@ function filter(key, value, log){
     }
 }
 
-document.getElementById('search-value').addEventListener("keyup",search,false);
+document.getElementById('search-value').addEventListener("input",search,false);
